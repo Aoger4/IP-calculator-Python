@@ -191,18 +191,29 @@ class C():      # Cálculos
         
         return strDir 
 
-
-    def clasifica(num):     #clasifica las redes
+    def clasifica(num,num2):     #clasifica las redes
             num = int(num)
+            num2 = int(num2)
             if num <= 127:
-                clase = 'A'
+                if num == 127:
+                    clase = 'A - Loopback'
+                elif num == 10:
+                    clase = 'A - Private network'
+                else:
+                    clase = 'A'
             elif num >=128 and num <=191:
-                clase = 'B'
-            elif num >=192 and num <= 223:
-                clase = 'C - Private network'
-            elif num >= 224 and num <= 239:
+                if num == 172 and num2 >= 16 and num2 <= 31:
+                    clase = 'B - Private network'
+                else:
+                    clase = 'B'
+            elif (num >=192 and num <= 223):
+                if num == 192 and num2 == 168:
+                    clase = 'C - Private network'
+                else:
+                    clase = 'C'
+            elif (num >= 224 and num <= 239):
                 clase = 'D - Multicast'
             else:
-                clase = 'Experimental network'
+                clase = 'E - Reserved'
 
             return clase

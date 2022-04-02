@@ -20,25 +20,25 @@ class MainApp(QMainWindow,C): #(QMainWindow) viene de QtWidgets y sirve para tra
         self.input1.setMaxLength(3)
         self.input1.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.input1.setAlignment(Qt.AlignCenter)
-        self.input1.setValidator(QRegExpValidator(QRegExp('[0-9]+')))
+        self.input1.setValidator(QRegExpValidator(QRegExp('[0-9]+[0-9]+[0-9]')))
         self.input2 = QLineEdit(self)
         self.input2.setGeometry(345, 20, 42, 21)
         self.input2.setMaxLength(3)
         self.input2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.input2.setAlignment(Qt.AlignCenter)
-        self.input2.setValidator(QRegExpValidator(QRegExp('[0-9]+')))
+        self.input2.setValidator(QRegExpValidator(QRegExp('[0-9]+[0-9]+[0-9]')))
         self.input3 = QLineEdit(self)
         self.input3.setGeometry(397, 20, 43, 21)
         self.input3.setMaxLength(3)
         self.input3.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.input3.setAlignment(Qt.AlignCenter)
-        self.input3.setValidator(QRegExpValidator(QRegExp('[0-9]+')))
+        self.input3.setValidator(QRegExpValidator(QRegExp('[0-9]+[0-9]+[0-9]')))
         self.input4 = QLineEdit(self)
         self.input4.setGeometry(450, 20, 42, 21)
         self.input4.setMaxLength(3)
         self.input4.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.input4.setAlignment(Qt.AlignCenter)
-        self.input4.setValidator(QRegExpValidator(QRegExp('[0-9]+')))
+        self.input4.setValidator(QRegExpValidator(QRegExp('[0-9]+[0-9]+[0-9]')))
         #Silder
         self.horizontalSlider = QSlider(self)
         self.horizontalSlider.setGeometry(299, 60, 141, 22)
@@ -212,6 +212,20 @@ class MainApp(QMainWindow,C): #(QMainWindow) viene de QtWidgets y sirve para tra
 
             #A continuación se obtienen los datos de las casillas de entrada
             dir = [self.input1.text(),self.input2.text(),self.input3.text(),self.input4.text()]
+
+            for dato in dir:        #verifica datos entre 0 y 255
+                if int(dato) < 0 or int(dato) > 255:
+                    self.label_ipB.setText('Error. Values must be between [0 - 255]')
+                    self.label_ipD.setText('!')
+                    self.label_ipH.setText('!')
+                    self.label_broadB.setText('!')
+                    self.label_netmB.setText('!')
+                    self.label_wildB.setText('!')
+                    self.label_netB.setText('!')
+                    self.label_maxhB.setText('!')
+                    self.label_minhB.setText('!')
+                    return None
+
             dir = C.concat(dir)
             dirBin = C.dec_a_bin(dir)
             exp = 32-subnet
@@ -253,13 +267,18 @@ class MainApp(QMainWindow,C): #(QMainWindow) viene de QtWidgets y sirve para tra
             self.label_minhD.setText(min_hostD)
             self.label_minhH.setText(C.dec_a_hexad(min_hostD))
             self.label_detnumMaxHosts.setText(str(nums_hosts))
-            self.label_detipC.setText(C.clasifica(self.input1.text()))
+            self.label_detipC.setText(C.clasifica(self.input1.text(),self.input2.text()))
         
         except ValueError:
-                self.label_ipB.setText('Error. Missing input values.')
-                self.label_ipD.setText('!')
-                self.label_ipH.setText('!')
-                #return 'Error. Faltan valores'
+            self.label_ipB.setText('Error. Missing input values.')
+            self.label_ipD.setText('!')
+            self.label_ipH.setText('!')
+            self.label_broadB.setText('!')
+            self.label_netmB.setText('!')
+            self.label_wildB.setText('!')
+            self.label_netB.setText('!')
+            self.label_maxhB.setText('!')
+            self.label_minhB.setText('!')
 
 
 if __name__ == "__main__":
